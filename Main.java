@@ -2,66 +2,57 @@ import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-//public class Main {
-//    public static void main(String[] args) {
-//
-////IP address is a string in the form "A.B.C.D", +
-//// where the value of A, B, C, and D may range from 0 to 255.
-//// Leading zeros are allowed.
-//// The length of A, B, C, or D can't be greater than 3.
-//
-////        String[] ipHackerRank = {"000.12.12.034", "121.234.12.12", "23.45.12.56", "00.12.123.123123.123", "122.23", "Hello.IP"};
-////        for(String ip : ipHackerRank){
-////            System.out.println(ifIPIsCorrectMethod(ip));
-////        }
-//        String s= "122.23";
-//       Pattern p = Pattern.compile("(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)");
-//        Matcher m = p.matcher(s);
-//        System.out.println(m.matches());
-//    }
+class Solution {
+    public static void main(String[] args) {
+        // create a Scanner object to read input from the user
+        Scanner myObj = new Scanner(System.in);
 
-
-class Solution{
-
-    public static void main(String[] args){
-        Scanner in = new Scanner(System.in);
-        while(in.hasNext()){
-            String IP = in.next();
+        // use a while loop to keep reading input from the user
+        while (myObj.hasNext()) {
+            String IP = myObj.next();
+            // print whether the given IP matches the pattern defined in MyRegex class
             System.out.println(IP.matches(new MyRegex().pattern));
         }
-
     }
-    public static boolean ifIPIsCorrectMethod(String userIP){
+
+    // define a separate method to check if the given IP address is valid or not
+    public static boolean ifIpValid(String userIP) {
         String[] numbersString = userIP.split("\\.");
         int[] numbersInt = new int[numbersString.length];
+        // loop through each segment of the IP address
         for (int i = 0; i < numbersString.length; i++) {
-            try{
+            try {
+                // convert each segment to integer and check if it's within valid range
                 numbersInt[i] = Integer.parseInt(numbersString[i]);
-                if(numbersInt[i]<0 || numbersInt[i]>255)
+                if (numbersInt[i] < 0 || numbersInt[i] > 255)
                     return false;
-            }
-            catch (NumberFormatException e){
+            } catch (NumberFormatException e) {
+                // if any segment is not a valid integer, return false
                 return false;
             }
         }
-        if(numbersInt.length!=4){
+        // if there are not exactly 4 segments in the IP address, return false
+        if (numbersInt.length != 4) {
             return false;
         }
+        // otherwise, return true
         return true;
     }
 }
-    class MyRegex {
-        String pattern;
 
-        public MyRegex() {
-            pattern = "(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)";
-        }
+// define a separate class to encapsulate the regular expression pattern for IP addresses
+class MyRegex {
+    String pattern;
 
-        public boolean isIpCorrect(String s) {
-            Pattern p = Pattern.compile(pattern);
-            Matcher m = p.matcher(s);
-            return m.matches();
-        }
+    // constructor to initialize the pattern string with a regular expression
+    public MyRegex() {
+        pattern = "(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)";
     }
 
-
+    // method to check if a given string matches the pattern defined in the constructor
+    public boolean isIpCorrect(String s) {
+        Pattern p = Pattern.compile(pattern);
+        Matcher m = p.matcher(s);
+        return m.matches();
+    }
+}
